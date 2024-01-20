@@ -1,4 +1,5 @@
 import { useState } from "react"
+import './Cell.css'
 
 function toggleSelection(currentSelection: string) {
   let newSelection = 'unselected';

@@ -1,4 +1,5 @@
 import './Board.css';
+import { Cell } from './Cell';
 
 export function Board() {
   return (
@@ -13,23 +14,23 @@ export function Board() {
         <tbody>
           <tr>
             <th scope="row">2</th>
-            <td>value</td>
+            <Cell />
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>value</td>
+            <Cell />
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>value</td>
+            <Cell />
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>value</td>
+            <Cell />
           </tr>
           <tr>
             <th scope="row">2</th>
-            <td>value</td>
+            <Cell />
           </tr>
         </tbody>
       </table>
