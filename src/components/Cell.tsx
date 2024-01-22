@@ -1,11 +1,16 @@
 import { useState } from "react"
 import './Cell.css'
 
-function toggleSelection(currentSelection: string) {
+interface CellProps {
+  onSelect: (selection: boolean) => void
+}
+
+function toggleSelection(currentSelection: string, onSelect: (selection: boolean) => void) {
   let newSelection = 'unselected';
   switch(currentSelection) {
     case 'unselected':
       newSelection = 'selected';
+      onSelect(true);
       break;
     case 'selected':
       newSelection = 'eliminated'
@@ -17,7 +22,7 @@ function toggleSelection(currentSelection: string) {
   return newSelection;
 }
 
-export function Cell() {
+export function Cell({ onSelect }: CellProps) {
   const [value, setValue] = useState('unselected')
-  return <td className={value} onClick={() => setValue(toggleSelection(value))}></td>
+  return <td className={value} onClick={() => setValue(toggleSelection(value, onSelect))}></td>
 }

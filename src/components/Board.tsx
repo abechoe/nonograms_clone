@@ -12,17 +12,33 @@ const SOLUTION = [
 
 export function Board({ solution = SOLUTION }) {
   const [resultText, setResultText] = useState<string>()
+  const [boardState, setBoardState] = useState<[boolean[]]>([[]])
+
+  function updateBoardState(rowIndex: number, cellIndex: number, selection: boolean) {
+    boardState[rowIndex][cellIndex] = selection
+    setBoardState(boardState)
+  }
+
+  function isBoardSolved(userInputs: [boolean[]]) {
+    return JSON.stringify(userInputs) === JSON.stringify(solution)
+  }
+
   return (
     <>
       <span>{resultText}</span>
       <table className="">
-        {solution.map((row) => {
+        {solution.map((row, rowIndex) => {
           return (
-            <tr></tr>
+            <tr>
+              {row.map((cell, cellIndex) => {
+                
+                return <Cell onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>
+              })}
+            </tr>
           )
         })}
       </table>
-      <button onClick={() => setResultText('You failed')}>I'm brave!</button>
+      <button onClick={() => setResultText(isBoardSolved(boardState) ? 'Congratulations' : 'You failed')}>I'm brave!</button>
     </>
   )
 }
