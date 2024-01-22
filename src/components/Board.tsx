@@ -1,39 +1,28 @@
+import { useState } from 'react';
 import './Board.css';
 import { Cell } from './Cell';
 
-export function Board() {
+const SOLUTION = [
+  [false, true, false, false, false],
+  [false, true, false, true, false],
+  [false, false, false, true, true],
+  [true, true, false, true, true],
+  [true, false, true, true, true]
+]
+
+export function Board({ solution = SOLUTION }) {
+  const [resultText, setResultText] = useState<string>()
   return (
     <>
+      <span>{resultText}</span>
       <table className="">
-        <thead>
-          <tr>
-            <th></th>
-            <th scope="col">3</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">2</th>
-            <Cell />
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <Cell />
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <Cell />
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <Cell />
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <Cell />
-          </tr>
-        </tbody>
+        {solution.map((row) => {
+          return (
+            <tr></tr>
+          )
+        })}
       </table>
+      <button onClick={() => setResultText('You failed')}>I'm brave!</button>
     </>
   )
 }
