@@ -11,15 +11,20 @@ const SOLUTION = [
 ]
 
 export function Board({ solution = SOLUTION }) {
+  const initialBoardState = solution.map((row) => {
+    return row.map((cell) => {
+      return false;
+    })
+  })
   const [resultText, setResultText] = useState<string>()
-  const [boardState, setBoardState] = useState<[boolean[]]>([[]])
+  const [boardState, setBoardState] = useState<boolean[][]>(initialBoardState)
 
   function updateBoardState(rowIndex: number, cellIndex: number, selection: boolean) {
     boardState[rowIndex][cellIndex] = selection
     setBoardState(boardState)
   }
 
-  function isBoardSolved(userInputs: [boolean[]]) {
+  function isBoardSolved(userInputs: boolean[][]) {
     return JSON.stringify(userInputs) === JSON.stringify(solution)
   }
 
@@ -30,7 +35,7 @@ export function Board({ solution = SOLUTION }) {
         {solution.map((row, rowIndex) => {
           return (
             <tr>
-              {row.map((cell, cellIndex) => {
+              {row.map((_cell, cellIndex) => {
                 
                 return <Cell onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>
               })}
