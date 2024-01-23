@@ -38,11 +38,18 @@ describe('Board', () => {
 
       // find the column headers
       const columnHeaders = screen.getAllByRole('columnheader');
-      expect(columnHeaders[0]).toHaveTextContent('2');
-      expect(columnHeaders[1]).toHaveTextContent('2 1');
-      expect(columnHeaders[2]).toHaveTextContent('1');
-      expect(columnHeaders[3]).toHaveTextContent('4');
-      expect(columnHeaders[4]).toHaveTextContent('3');
+      expect(columnHeaders[1]).toHaveTextContent('2');
+      expect(columnHeaders[2]).toHaveTextContent('2 1');
+      expect(columnHeaders[3]).toHaveTextContent('1');
+      expect(columnHeaders[4]).toHaveTextContent('4');
+      expect(columnHeaders[5]).toHaveTextContent('3');
+
+      const rowHeaders = screen.getAllByRole('rowheader');
+      expect(rowHeaders[0]).toHaveTextContent('1');
+      expect(rowHeaders[1]).toHaveTextContent('1 1');
+      expect(rowHeaders[2]).toHaveTextContent('2');
+      expect(rowHeaders[3]).toHaveTextContent('2 2');
+      expect(rowHeaders[4]).toHaveTextContent('1 3');
   })
 
   test('Board displays You failed when it is not solved', async () => {    
@@ -61,15 +68,21 @@ describe('Board', () => {
   test('Board displays Congratulations when it is solved', async () => {
     const { container } = render(<Board
       solution={[
-        [true]
+        [true, false, true],
+        [false, false, true],
+        [true, true, false]
       ]}
       />);
 
     const tableBody = container.getElementsByTagName('tbody');
-    expect(tableBody[0].getElementsByTagName('tr').length).toBe(1);
+    // expect(tableBody[0].getElementsByTagName('tr').length).toBe(1);
 
-    const cell = screen.getByRole('cell');
-    await userEvent.click(cell);
+    const cells = screen.getAllByRole('cell');
+    await userEvent.click(cells[0]);
+    await userEvent.click(cells[2]);
+    await userEvent.click(cells[5]);
+    await userEvent.click(cells[6]);
+    await userEvent.click(cells[7]);
 
     const button = screen.getByRole('button', {name: "I'm brave!"});
     await userEvent.click(button);

@@ -48,6 +48,7 @@ export function Board({ solution = SOLUTION }) {
       <table className="">
         <thead>
           <tr>
+            <th></th>
             {solution[0].map((_column, colIndex) => {
               let columnValues = []
               for (let i = 0; i < solution[0].length; i += 1) {
@@ -61,6 +62,7 @@ export function Board({ solution = SOLUTION }) {
           {solution.map((row, rowIndex) => {
             return (
               <tr>
+                <th scope="row">{computeHints(row)}</th>
                 {row.map((_cell, cellIndex) => {
                   
                   return <Cell onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>
@@ -70,7 +72,14 @@ export function Board({ solution = SOLUTION }) {
           })}
         </tbody>
       </table>
-      <button onClick={() => setResultText(isBoardSolved(boardState) ? 'Congratulations' : 'You failed')}>I'm brave!</button>
+      <button
+        onClick={
+          () => {
+            setResultText(isBoardSolved(boardState) ? 'Congratulations' : 'You failed')
+        }}
+      >
+        I'm brave!
+      </button>
     </>
   )
 }
