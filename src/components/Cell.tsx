@@ -14,6 +14,7 @@ function toggleSelection(currentSelection: string, onSelect: (selection: boolean
       break;
     case 'selected':
       newSelection = 'eliminated'
+      onSelect(false);
       break;
     case 'eliminated':
       newSelection = 'unselected'

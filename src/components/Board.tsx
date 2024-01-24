@@ -41,7 +41,6 @@ export function Board({ solution = SOLUTION }) {
     return JSON.stringify(userInputs) === JSON.stringify(solution)
   }
 
-  // [solution[0][0], solution[1][0]..., solution[n][0]] -> first column
   return (
     <>
       <span>{resultText}</span>

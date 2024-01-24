@@ -51,4 +51,16 @@ describe('Cell', () => {
 
     expect(mockOnSelect).toHaveBeenCalledWith(true)
   })
+  
+  test('clicking to eliminated calls the callback with false', async () => {
+    const mockOnSelect = vi.fn()
+    render(<Cell onSelect={mockOnSelect} />)
+
+    const cell = screen.getByRole('cell')
+    await userEvent.click(cell)
+    expect(mockOnSelect).toHaveBeenCalledWith(true)
+
+    await userEvent.click(cell)
+    expect(mockOnSelect).toHaveBeenCalledWith(false)
+  })
 })
