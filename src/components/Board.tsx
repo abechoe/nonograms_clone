@@ -61,7 +61,7 @@ export function Board({ solution = SOLUTION }) {
           {solution.map((row, rowIndex) => {
             return (
               <tr>
-                <th scope="row">{computeHints(row)}</th>
+                <th scope="row" className="rowHint">{computeHints(row)}</th>
                 {row.map((_cell, cellIndex) => {
                   
                   return <Cell onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>

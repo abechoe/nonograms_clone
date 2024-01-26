@@ -1,5 +1,5 @@
 .selected {
-  background-color: black;
+  background: content-box #000;
 }
 
 .eliminated {
