@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import './Board.css';
 import { Cell } from './Cell';
+import axios from 'axios';
 
 const SOLUTION = [
   [false, true, false, false, false],
@@ -23,14 +24,32 @@ export function computeHints(correctAnswers: boolean[]) {
   return hintArray.join(' ');
 }
 
-export function Board({ solution = SOLUTION }) {
+export async function fetchCatData() {
+  try {
+    const response = await axios.get('https://catfact.ninja/fact');
+
+    const result = response.data;
+
+    return result;
+
+  } catch (error) {
+    console.error('Error fetching cat data: ', error);
+  }
+}
+
+interface BoardProps {
+  solution: boolean[][]
+}
+
+export function Board({ solution = SOLUTION }: BoardProps) {
   const initialBoardState = solution.map((row) => {
-    return row.map((cell) => {
+    return row.map((_cell) => {
       return false;
     })
   })
   const [resultText, setResultText] = useState<string>()
   const [boardState, setBoardState] = useState<boolean[][]>(initialBoardState)
+  const [catData, setCatData] = useState<string>();
 
   function updateBoardState(rowIndex: number, cellIndex: number, selection: boolean) {
     boardState[rowIndex][cellIndex] = selection
@@ -40,6 +59,8 @@ export function Board({ solution = SOLUTION }) {
   function isBoardSolved(userInputs: boolean[][]) {
     return JSON.stringify(userInputs) === JSON.stringify(solution)
   }
+
+
 
   return (
     <>
@@ -79,6 +100,13 @@ export function Board({ solution = SOLUTION }) {
       >
         I'm brave!
       </button>
+      <button onClick={async () => {
+        const { fact } = await fetchCatData();
+        setCatData(fact);
+      }}>
+        get cat facts!
+      </button>
+      <p>{catData}</p>
     </>
   )
 }

@@ -1,8 +1,21 @@
-import { describe, test, expect } from 'vitest';
+import axios from 'axios';
+import { describe, test, expect, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom'
 import { Board, computeHints } from './Board';
 import userEvent from '@testing-library/user-event';
+
+// vi.mock('axios', async (importOriginal) => {
+//   const axios = await importOriginal();
+//   return {
+//     default: {
+//       ...axios,
+//       get: vi.fn()
+//     }
+//   }
+// });
+
+vi.mock('axios');
 
 describe('Board', () => {
   test('it renders a table', () => {
@@ -96,5 +109,19 @@ describe('Board', () => {
     expect(computeHints(someRowOrColumnAnswers)).toEqual("2")
     const someRowOrColumnAnswersWithSpace = [false, true, true, false, true];
     expect(computeHints(someRowOrColumnAnswersWithSpace)).toEqual("2 1");
+  })
+
+  test('clicking on cat button displays cat facts', async () => {
+    // vi.mocked(axios.get).mockImplementationOnce(() => (Promise.resolve({ fact: 'cats are cool' })))
+    // vi.mocked(axios.get).mockReturnValue(Promise.resolve(10))
+
+    console.log('axios get: ', axios.get);
+    axios.get.mockResolvedValue({ data: { fact: 'cats are cool'} })
+    render(<Board solution={[[]]} />);
+
+    const button = screen.getByRole('button', {name: 'get cat facts!'});
+    await userEvent.click(button);
+
+    expect(screen.getByText('cats are cool')).toBeInTheDocument();
   })
 })
