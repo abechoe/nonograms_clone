@@ -5,21 +5,11 @@ import '@testing-library/jest-dom'
 import { Board, computeHints } from './Board';
 import userEvent from '@testing-library/user-event';
 
-// vi.mock('axios', async (importOriginal) => {
-//   const axios = await importOriginal();
-//   return {
-//     default: {
-//       ...axios,
-//       get: vi.fn()
-//     }
-//   }
-// });
-
 vi.mock('axios');
 
 describe('Board', () => {
   test('it renders a table', () => {
-    render(<Board />)
+    render(<Board solution={[[]]} />)
     expect(screen.getByRole('table')).toBeInTheDocument()
   })
 
@@ -79,16 +69,13 @@ describe('Board', () => {
   })
 
   test('Board displays Congratulations when it is solved', async () => {
-    const { container } = render(<Board
+    render(<Board
       solution={[
         [true, false, true],
         [false, false, true],
         [true, true, false]
       ]}
       />);
-
-    const tableBody = container.getElementsByTagName('tbody');
-    // expect(tableBody[0].getElementsByTagName('tr').length).toBe(1);
 
     const cells = screen.getAllByRole('cell');
     await userEvent.click(cells[0]);
@@ -101,7 +88,8 @@ describe('Board', () => {
     await userEvent.click(button);
 
     expect(screen.getByText("Congratulations")).toBeInTheDocument()
-  })
+  });
+
   test('computeHint computes a hint', () => {
     const rowOrColumnAnswers = [true];
     expect(computeHints(rowOrColumnAnswers)).toEqual("1")
@@ -109,19 +97,16 @@ describe('Board', () => {
     expect(computeHints(someRowOrColumnAnswers)).toEqual("2")
     const someRowOrColumnAnswersWithSpace = [false, true, true, false, true];
     expect(computeHints(someRowOrColumnAnswersWithSpace)).toEqual("2 1");
-  })
+  });
 
   test('clicking on cat button displays cat facts', async () => {
-    // vi.mocked(axios.get).mockImplementationOnce(() => (Promise.resolve({ fact: 'cats are cool' })))
-    // vi.mocked(axios.get).mockReturnValue(Promise.resolve(10))
-
-    console.log('axios get: ', axios.get);
-    axios.get.mockResolvedValue({ data: { fact: 'cats are cool'} })
     render(<Board solution={[[]]} />);
-
-    const button = screen.getByRole('button', {name: 'get cat facts!'});
+    expect(screen.queryByText('cats are cool')).not.toBeInTheDocument();
+    
+    vi.mocked(axios.get).mockResolvedValue({ data: { fact: 'cats are cool' } })
+    const button = screen.getByRole('button', { name: 'get cat facts!' });
     await userEvent.click(button);
 
     expect(screen.getByText('cats are cool')).toBeInTheDocument();
-  })
-})
+  });
+});

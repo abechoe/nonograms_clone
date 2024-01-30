@@ -74,18 +74,17 @@ export function Board({ solution = SOLUTION }: BoardProps) {
               for (let i = 0; i < solution[0].length; i += 1) {
                 columnValues.push(solution[i][colIndex])
               }
-              return <th>{computeHints(columnValues)}</th>
+              return <th key={colIndex}>{computeHints(columnValues)}</th>
             })}
           </tr>
         </thead>
         <tbody>
           {solution.map((row, rowIndex) => {
             return (
-              <tr>
+              <tr key={rowIndex}>
                 <th scope="row" className="rowHint">{computeHints(row)}</th>
                 {row.map((_cell, cellIndex) => {
-                  
-                  return <Cell onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>
+                  return <Cell key={`${rowIndex}-${cellIndex}`} onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>
                 })}
               </tr>
             )

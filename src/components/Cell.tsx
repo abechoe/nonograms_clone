@@ -26,10 +26,11 @@ function toggleSelection(currentSelection: string, onSelect: (selection: boolean
 export function Cell({ onSelect }: CellProps) {
   const [value, setValue] = useState('unselected')
   return (
-    <td
-    className={value}
-    onClick={() => setValue(toggleSelection(value, onSelect))}
-    >
-    </td>
+    <>
+      <td
+      className={value}
+      onClick={() => setValue(toggleSelection(value, onSelect))}
+      />
+    </>
   )
 }
