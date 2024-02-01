@@ -38,7 +38,7 @@ export async function fetchCatData() {
 }
 
 interface BoardProps {
-  solution: boolean[][]
+  solution?: boolean[][]
 }
 
 export function Board({ solution = SOLUTION }: BoardProps) {
