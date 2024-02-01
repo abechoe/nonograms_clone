@@ -21,7 +21,7 @@ export function computeHints(correctAnswers: boolean[]) {
     return accumulator;
   },
   [0]).filter(candidate => candidate != 0);
-  return hintArray.join(' ');
+  return hintArray;
 }
 
 export async function fetchCatData() {
@@ -74,7 +74,7 @@ export function Board({ solution = SOLUTION }: BoardProps) {
               for (let i = 0; i < solution[0].length; i += 1) {
                 columnValues.push(solution[i][colIndex])
               }
-              return <th key={colIndex}>{computeHints(columnValues)}</th>
+              return <th key={colIndex}>{computeHints(columnValues).map(hint => <p>{hint}</p>)}</th>
             })}
           </tr>
         </thead>
@@ -82,7 +82,7 @@ export function Board({ solution = SOLUTION }: BoardProps) {
           {solution.map((row, rowIndex) => {
             return (
               <tr key={rowIndex}>
-                <th scope="row" className="rowHint">{computeHints(row)}</th>
+                <th scope="row" className="rowHint">{computeHints(row).map(hint => <span>{hint}</span>)}</th>
                 {row.map((_cell, cellIndex) => {
                   return <Cell key={`${rowIndex}-${cellIndex}`} onSelect={(selection: boolean) => updateBoardState(rowIndex, cellIndex, selection)}/>
                 })}

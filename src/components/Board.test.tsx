@@ -42,17 +42,17 @@ describe('Board', () => {
       // find the column headers
       const columnHeaders = screen.getAllByRole('columnheader');
       expect(columnHeaders[1]).toHaveTextContent('2');
-      expect(columnHeaders[2]).toHaveTextContent('2 1');
+      expect(columnHeaders[2]).toHaveTextContent('21');
       expect(columnHeaders[3]).toHaveTextContent('1');
       expect(columnHeaders[4]).toHaveTextContent('4');
       expect(columnHeaders[5]).toHaveTextContent('3');
 
       const rowHeaders = screen.getAllByRole('rowheader');
       expect(rowHeaders[0]).toHaveTextContent('1');
-      expect(rowHeaders[1]).toHaveTextContent('1 1');
+      expect(rowHeaders[1]).toHaveTextContent('11');
       expect(rowHeaders[2]).toHaveTextContent('2');
-      expect(rowHeaders[3]).toHaveTextContent('2 2');
-      expect(rowHeaders[4]).toHaveTextContent('1 3');
+      expect(rowHeaders[3]).toHaveTextContent('22');
+      expect(rowHeaders[4]).toHaveTextContent('13');
   })
 
   test('Board displays You failed when it is not solved', async () => {    
@@ -92,11 +92,11 @@ describe('Board', () => {
 
   test('computeHint computes a hint', () => {
     const rowOrColumnAnswers = [true];
-    expect(computeHints(rowOrColumnAnswers)).toEqual("1")
+    expect(computeHints(rowOrColumnAnswers)).toEqual([1])
     const someRowOrColumnAnswers = [true, true];
-    expect(computeHints(someRowOrColumnAnswers)).toEqual("2")
+    expect(computeHints(someRowOrColumnAnswers)).toEqual([2])
     const someRowOrColumnAnswersWithSpace = [false, true, true, false, true];
-    expect(computeHints(someRowOrColumnAnswersWithSpace)).toEqual("2 1");
+    expect(computeHints(someRowOrColumnAnswersWithSpace)).toEqual([2, 1]);
   });
 
   test('clicking on cat button displays cat facts', async () => {
