@@ -23,6 +23,12 @@ function toggleSelection(currentSelection: string, onSelect: (selection: boolean
   return newSelection;
 }
 
+function handleContextMenu(event: React.MouseEvent<HTMLTableCellElement, MouseEvent>, onSelect: (selection: boolean) => void) {
+  event.preventDefault();
+  onSelect(false);
+  return 'eliminated'
+}
+
 export function Cell({ onSelect }: CellProps) {
   const [value, setValue] = useState('unselected')
   return (
@@ -30,6 +36,7 @@ export function Cell({ onSelect }: CellProps) {
       <td
       className={value}
       onClick={() => setValue(toggleSelection(value, onSelect))}
+      onContextMenu={(event) => setValue(handleContextMenu(event, onSelect))}
       />
     </>
   )

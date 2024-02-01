@@ -63,4 +63,15 @@ describe('Cell', () => {
     await userEvent.click(cell)
     expect(mockOnSelect).toHaveBeenCalledWith(false)
   })
+
+  test('right clicking on a cell eliminates and calls the callback with false', async () => {
+    const mockOnSelect = vi.fn()
+    render(<Cell onSelect={mockOnSelect} />)
+
+    const cell = screen.getByRole('cell');
+    await userEvent.pointer([{ keys: '[MouseRight]', target: cell }]);
+
+    expect(cell.className).toBe('eliminated');
+    expect(mockOnSelect).toHaveBeenCalledWith(false);
+  })
 })
